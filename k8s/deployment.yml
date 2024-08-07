@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: notification-service:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka:9092"
+        - name: AWS_REGION
+          value: "us-east-1"
+        - name: DYNAMODB_TABLE
+          value: "Notifications"
